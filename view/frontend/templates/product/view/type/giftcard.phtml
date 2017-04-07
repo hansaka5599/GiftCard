@@ -1,0 +1,151 @@
+<?php
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php /* @var $block \Magento\GiftCard\Block\Catalog\Product\View\Type\Giftcard */ ?>
+<?php $_product = $block->getProduct(); ?>
+<?php $_id = $_product->getId(); ?>
+<div class="giftcard form giftcard-info" data-container-for="giftcard_info">
+    <?php echo $block->getChildHtml('product_type_data_extra') ?>
+
+    <?php if ($_product->isSaleable() && $block->isConfigured($_product)): ?>
+        <fieldset class="fieldset giftcard send required">
+            <legend class="legend">
+                <span><?php /* @escapeNotVerified */ echo __('Gift Card Information'); ?></span>
+            </legend>
+            <br>
+            <div class="field sender required">
+                <label for="giftcard_sender_name" class="label"><span><?php /* @escapeNotVerified */ echo __('Sender Name'); ?></span></label>
+                <div class="control">
+                    <input type="text"
+                           id="giftcard_sender_name"
+                           name="giftcard_sender_name"
+                           class="required-entry input-text"
+                           value="<?php echo $block->escapeHtml($block->getDefaultSenderName()) ?>"/>
+                </div>
+            </div>
+            <?php if ($block->isEmailAvailable($_product)): ?>
+                <div class="field sender email required">
+                    <label for="giftcard_sender_email" class="label"><span><?php /* @escapeNotVerified */ echo __('Sender Email'); ?></span></label>
+                    <div class="control">
+                        <input type="email"
+                               id="giftcard_sender_email"
+                               name="giftcard_sender_email"
+                               class="validate-email required-entry input-text"
+                               value="<?php echo $block->escapeHtml($block->getDefaultSenderEmail()) ?>"/>
+                    </div>
+                </div>
+            <?php endif; ?>
+
+            <div class="field recipient required">
+                <label for="giftcard_recipient_name" class="label"><span><?php /* @escapeNotVerified */ echo __('Recipient Name'); ?></span></label>
+                <div class="control">
+                    <input type="text"
+                           id="giftcard_recipient_name"
+                           name="giftcard_recipient_name"
+                           class="required-entry input-text"
+                           value="<?php echo $block->escapeHtml($block->getDefaultValue('giftcard_recipient_name')) ?>"/>
+                </div>
+            </div>
+            <?php if ($block->isEmailAvailable($_product)): ?>
+                <div class="field recipient email required" >
+                    <label for="giftcard_recipient_email" class="label"><span><?php /* @escapeNotVerified */ echo __('Recipient Email'); ?></span></label>
+                    <div class="control">
+                        <input type="email"
+                               id="giftcard_recipient_email"
+                               name="giftcard_recipient_email"
+                               class="validate-email required-entry input-text"
+                               value="<?php echo $block->escapeHtml($block->getDefaultValue('giftcard_recipient_email')) ?>"/>
+                    </div>
+                </div>
+            <?php endif; ?>
+
+            <?php if ($block->isDateOfDeliveryAvailable($_product)): ?>
+                <div class="field delay required">
+                    <label for="giftcard_date_of_delivery" class="label"><span><?php /* @escapeNotVerified */ echo __('Date of Delivery'); ?></span><span class="grey"><?php /* @escapeNotVerified */ echo __('(Optional)'); ?></span></label>
+                    <div class="control">
+                        <input type="text"
+                               id="giftcard_date_of_delivery"
+                               name="giftcard_date_of_delivery"
+                               class="input-text"
+                               value="<?php echo $block->escapeHtml($block->getDefaultValue('giftcard_date_of_delivery')) ?>"/>
+                        <button class="ui-datepicker-trigger v-middle" type="button"><span>Select Date</span></button>
+                    </div>
+                </div>
+            <?php endif; ?>
+
+            <?php if ($block->isMessageAvailable($_product)): ?>
+                <div class="field text required">
+                    <label for="giftcard-message" class="label"><span><?php /* @escapeNotVerified */ echo __('Message'); ?></span><span class="grey"><?php /* @escapeNotVerified */ echo __('(Optional)'); ?></span></label>
+                    <div class="control">
+                        <textarea name="giftcard_message" id="giftcard-message"
+                                  class="input-text giftcard-message-max-length"
+                            <?php if ($block->getMessageMaxLength()) {
+                                $errorMessage = "'" . __('Maximum length of the message is %1 characters.',
+                                        $block->getMessageMaxLength()) . "'";
+                                echo 'data-validate="{maxlength:' . $block->getMessageMaxLength() . ',messages:{maxlength:' . $errorMessage . '}}"';
+                            } ?>
+                                  cols="5"
+                                  rows="3"><?php echo $block->escapeHtml($block->getDefaultValue('giftcard_message')) ?></textarea>
+                    </div>
+                </div>
+            <?php endif; ?>
+        </fieldset>
+    <?php elseif ($_product->isAvailable() && $block->isConfigured($_product)): ?>
+        <?php /* @escapeNotVerified */
+        echo $block->getProductPrice($_product); ?>
+    <?php endif; ?>
+</div>
+<script>
+    require([
+        "jquery",
+        "mage/mage",
+        "jquery/ui"
+    ], function($){
+
+//        (function letsFormatTheDate() {
+//
+//
+//            $(function () {
+//                jQuery("#giftcard_date_of_delivery" ).datepicker(
+//                    { minDate: 1, dateFormat: 'yy-mm-dd' }
+//                );
+//            });
+//
+//        }());
+
+        (function letsFormatTheDate() {
+            var input = $("#giftcard_date_of_delivery" );
+            if (input.val()) {
+                var inputDate = new Date(input.val());
+                var dd = inputDate.getDate();
+                var mm = inputDate.getMonth()+1;
+                var yyyy = inputDate.getFullYear();
+                if(mm<10){
+                    mm='0'+mm
+                }
+                var inputDate = dd+'/'+mm+'/'+yyyy;
+                input.val(inputDate);
+            }
+
+            input.datepicker(
+                { minDate: 1, dateFormat: 'dd/mm/yy' }
+            );
+
+            /* lets also make the button clickable */
+            input.siblings('.ui-datepicker-trigger').on('click', function () {
+                try {
+                    input.datepicker('show');
+                } catch (e) {
+                    console.log(e);
+                }
+            });
+
+        }());
+    });
+</script>

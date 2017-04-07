@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Netstarter. All rights reserved.
+ *
+ * @category    Rag
+ * @package     Rag_GiftCard
+ * @author      Netstarter Team <contact@netstarter.com>
+ * @copyright   Copyright (c) 2015 Netstarter Pty Ltd. (http://www.netstarter.com.au)
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="barcode" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Barcode (Gift Card)</label>
+            <tab>rag</tab>
+            <resource>Rag_GiftCard::barcode</resource>
+            <group id="settings" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Barcode Settings</label>
+                <field id="status" translate="label comment" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="1">
+                    <label>Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="url" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="1">
+                    <label>URL</label>
+                </field>
+                <field id="pwd" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="1">
+                    <label>PWD</label>
+                </field>
+                <field id="text" translate="label comment" type="select" sortOrder="4" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="1">
+                    <label>Text</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Make gift card code available underneath the barcode image</comment>
+                </field>
+
+            </group>
+        </section>
+    </system>
+</config>

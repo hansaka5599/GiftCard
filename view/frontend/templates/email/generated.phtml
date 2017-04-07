@@ -1,0 +1,32 @@
+<?php
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+/** @var \Magento\GiftCard\Block\Generated $block */
+?>
+<?php $_codes = $block->getCodes(); ?>
+<?php $_isRedeemable = $block->getIsRedeemable(); ?>
+
+<?php $_barcodeData = $block->getBarcodeData(); ?>
+
+<?php foreach ($_codes as $_code): ?>
+    <?php if (!$_code): ?>
+        <?php continue; ?>
+    <?php endif; ?>
+
+    <div>
+        <p><?= /* @escapeNotVerified */  $_code ?></p>
+    </div>
+
+    <div class="giftcard-barcode-title">
+        <p>To redeem in-store present barcode below:</p>
+    </div>
+    <?php if (!empty ($_barcodeData['status']) && $_barcodeData['status'] == '1'): ?>
+        <img src="<?php /* @escapeNotVerified */ echo $_barcodeData['url'] . '&data=' . $_code ?>&bcolor=FFFFFF&fcolor=000000&tcolor=000000&fh=14&bred=0&w2n=2.5&xdim=2&w=&h=120&debug=1&btype=7&angle=0&quiet=1&balign=2&talign=3&guarg=1&tdown=1&stst=1&schk=0&cchk=1&ntxt=1&c128=0" alt="<?php /* @escapeNotVerified */ echo $_code ?>" title="<?php /* @escapeNotVerified */ echo $_code ?>" />
+    <?php endif; ?>
+    <br />
+    <br />
+<?php endforeach; ?>
